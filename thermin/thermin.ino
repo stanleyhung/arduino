@@ -23,8 +23,14 @@ void setup() {
 }
 
 void loop () {
-    sensorValue = analogRead(A0);
-    int pitch = map(sensorValue, sensorLow, sensorHigh, 50, 2000);
-    tone(speakerPin, pitch, 20);
-    delay(10);
+  int switchState = digitalRead(switchPin);
+  int curTime = millis();
+  while (millis() < curTime + 1000) {
+    if (switchState == HIGH) {
+      sensorValue = analogRead(A0);
+      int pitch = map(sensorValue, sensorLow, sensorHigh, 50, 2000);
+      tone(speakerPin, pitch, 20);
+      delay(10);
+    }
+  }
 }
