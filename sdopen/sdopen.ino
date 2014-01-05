@@ -1,5 +1,7 @@
 #include <SD.h>
 
+File myFile;
+
 void setup() {
   Serial.begin(9600);
   pinMode(10, OUTPUT);
@@ -18,4 +20,16 @@ void setup() {
 }
 
 void loop () {
+  char* fileName = "low.wav";
+  if (!myFile) {
+    Serial.println("Opening file...");
+    myFile = SD.open(fileName, FILE_READ); 
+  }
+  if (!myFile.available() > 0) {
+    Serial.println("Done reading, closing file...");
+    myFile.close();
+    return;
+  }
+  char data = myFile.read();
+  Serial.println(data);
 }
