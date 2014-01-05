@@ -2,6 +2,7 @@
 
 void setup() {
   char* fileName = "low.wav";
+  pinMode(10, OUTPUT);
   Serial.println("testing SD Card...");
   if (!SD.begin()) {
     Serial.println("ERROR - SD Card could not be opened");

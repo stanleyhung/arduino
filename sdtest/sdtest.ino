@@ -4,6 +4,7 @@ const char* name = "high.wav";
 char *fileName;
 
 void setup() {
+  pinMode(10, OUTPUT);
  SD.begin();
  Serial.begin(9600);
  pinMode(ledPin, OUTPUT);
