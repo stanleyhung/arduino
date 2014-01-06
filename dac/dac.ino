@@ -3,7 +3,7 @@
 
 File myFile;
 char* fileName = "low.wav";
-WavParse WavParse();
+WavParse parser();
 
 void setup() {
   Serial.begin(9600);
@@ -14,7 +14,7 @@ void setup() {
     return;
   }
   Serial.print(fileName);
-  Serial.print()("\t");
+  Serial.print("\t");
   if (SD.exists(fileName)) {
     Serial.println("exists in SD Card");
   } else {
@@ -22,23 +22,12 @@ void setup() {
   }
   //Open + Parse File Header Information
   myFile = SD.open(fileName);
-  File_Header* myHeader = (File_Header*) malloc(sizeof(File_Header));
   if (!myFile) {
     Serial.println("Error - Could not open file");
     return;
   }
   Serial.println("successfully opened file");
-  for (int i = 0; i < sizeof(File_Header); i++) {
-    myHeader->b[i] = myFile.read();
-  }
-  Wave_Header* myWav = (Wave_Header*) malloc(sizeof(Wave_Header));
-  for (int i = 0; i < sizeof(Wave_Header); i++) {
-    myWav->b[i] = myFile.read();
-  }
-  Wave_Data* myWavData = (Wave_Data*) malloc(myWav->h.subchunksize);
-  for (int i = 0; i < myWav->h.subchunksize; i++) {
-    myWavData->b[i] = myFile.read();
-  }
+  /*
   Serial.print("chunkID is: ");
   Serial.println(myHeader->h.chunkID);
   Serial.print("chunksize is: ");
@@ -55,6 +44,7 @@ void setup() {
   Serial.println(myWavData->d.sampleRate);
   Serial.print("byteRate is: ");
   Serial.println(myWavData->d.byteRate);
+  */
   myFile.close();
 }
 
