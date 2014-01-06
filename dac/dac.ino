@@ -3,6 +3,7 @@
 
 File myFile;
 char* fileName = "low.wav";
+int i;
 
 void setup() {
   Serial.begin(9600);
@@ -33,6 +34,28 @@ void setup() {
   Serial.println(parser.bitsPerSample);
   Serial.println(parser.dataOffset);
   myFile.close();
+  i = 0;
+  
+  cli(); //disable interrupts
+  
+  //set timer1 interrupts at 6kHz
+  TCCR1A = 0;
+  TCCR1B = 0;
+  TCNT1 = 0;
+  OCR1A = 2666; //(16*10^6) / (6000*1) - 1
+  //turn on CTC mode
+  TCCR1B |= (1 << WGM12);
+  TCCR1B |= (1 << CS10); //set CS10 bit for 1 prescaler
+  //enable timer compare interrupt
+  TIMSK1 |= (1 << OCIE1A);
+  
+  sei(); //enable interrupts
+}
+
+//Timer1 interrupts at 6kHz
+ISR(TIMER1_COMMPA_vect) {
+  i++;
+  Serial.println(i);
 }
 
 void loop () {
