@@ -15,23 +15,23 @@
 //In the WAVE Header, a standard PCM file contains at least 16 bytes 
 #define PCM_SIZE 16
 
+//Uncompressed files will have this value
+#define UNCOMPRESSED_AUDIO_FORMAT 1
+
 WavParse::WavParse(File *file) {
 	success = 0;
-	_myFileHeader = (File_Header*) malloc(sizeof(File_Header));
 	for (int i = 0; i < sizeof(File_Header); i++) {
 		_myFileHeader->b[i] = (*file).read();
 	}
 	if (checkFileHeader(_myFileHeader) != 1) {
 		return;
 	}
-	_myWaveHeader = (Wave_Header*) malloc(sizeof(Wave_Header));
 	for (int i = 0; i < sizeof(Wave_Header); i++) {
 		_myWaveHeader->b[i] = (*file).read();
 	}
 	if (checkWaveHeader(_myWaveHeader) != 1) {
 		return;
 	}
-	_myWaveData = (Wave_Data*) malloc(sizeof(Wave_Data));
 	for (int i = 0; i < sizeof(Wave_Data); i++) {
 		_myWaveData->b[i] = (*file).read();
 	}
@@ -70,6 +70,9 @@ int WavParse::checkWaveHeader(Wave_Header *wh) {
 
 // This function ensures that the wavedata contains data that can be parsed correctly.
 int WavParse::checkWaveData(Wave_Data *wd) {
+	if (wd->data.audioFormat != UNCOMPRESSED_AUDIO_FORMAT) {
+		return 0;
+	}
 	if (wd->data.numChannels < 1 || wd->data.numChannels > 8) {
 		return 0;
 	}

@@ -29,24 +29,6 @@ void setup() {
   WavParse parser(&myFile);
   Serial.println("attempted to parse file");
   Serial.println(parser.success);
-  /*
-  Serial.print("chunkID is: ");
-  Serial.println(myHeader->h.chunkID);
-  Serial.print("chunksize is: ");
-  Serial.println(myHeader->h.chunkSize);
-  Serial.print("format is: ");
-  Serial.println(myHeader->h.format);
-  Serial.print("subchunkid is: ");
-  Serial.println(myWav->h.subchunkID);
-  Serial.print("subchunksize is: ");
-  Serial.println(myWav->h.subchunksize);
-  Serial.print("numChannels is: ");
-  Serial.println(myWavData->d.numChannels);
-  Serial.print("sampleRate is: ");
-  Serial.println(myWavData->d.sampleRate);
-  Serial.print("byteRate is: ");
-  Serial.println(myWavData->d.byteRate);
-  */
   myFile.close();
 }
 
