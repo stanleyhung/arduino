@@ -16,16 +16,16 @@ public:
 	    unsigned long chunkSize;
 	    unsigned long format;
 	  } Header;
-	  Header h;
+	  Header data;
 	  byte b[12];
 	} File_Header;
 
 	typedef union Wave_Header {
 	  typedef struct Header {
-	    unsigned long subchunkID;
-	    unsigned long subchunksize;
+	    unsigned long subChunkID;
+	    unsigned long subChunkSize;
 	  } Header;
-	  Header h;
+	  Header data;
 	  byte b[8];
 	} Wave_Header;
 
@@ -39,7 +39,7 @@ public:
 	    unsigned short bitsPerSample;
 	    byte unused[8];
 	  } Data;
-	  Data d;
+	  Data data;
 	  byte b[24];
 	} Wave_Data;
 	int checkFileHeader(File_Header *fh);
