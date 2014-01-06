@@ -7,16 +7,16 @@
 #include "WavParse.h"
 
 WavParse::WavParse() {
-
+	;
 }
 
-int WavParse::checkFileHeader(*File_Header fh) {
+int WavParse::checkFileHeader(File_Header *fh) {
 	return 1;
 }
-int WavParse::checkWaveHeader(*Wave_Header wh) {
+int WavParse::checkWaveHeader(Wave_Header *wh) {
 	return 1;
 }
-int WavParse::checkWaveData(*Wave_Data wd) {
+int WavParse::checkWaveData(Wave_Data *wd) {
 	return 1;
 }
 

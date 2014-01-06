@@ -42,10 +42,10 @@ public:
 	  Data d;
 	  byte b[24];
 	} Wave_Data;
-	int checkFileHeader(*File_Header fh);
-	int checkWaveHeader(*Wave_Header wh);
-	int checkWaveData(*Wave_Data wd);
+	int checkFileHeader(File_Header *fh);
+	int checkWaveHeader(Wave_Header *wh);
+	int checkWaveData(Wave_Data *wd);
 
-}
+};
 
 #endif
