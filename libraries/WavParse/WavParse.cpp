@@ -11,6 +11,7 @@
 #define RIFF 1179011410
 #define WAVE 1163280727
 #define FMT 544501094
+#define DATA 1635017060
 
 //In the WAVE Header, a standard PCM file contains at least 16 bytes 
 #define PCM_SIZE 16
@@ -19,6 +20,8 @@
 #define UNCOMPRESSED_AUDIO_FORMAT 1
 
 WavParse::WavParse(File *file) {
+	//reset file in case it was used by someone else
+	(*file).seek(0);
 	success = 0;
 	for (int i = 0; i < sizeof(File_Header); i++) {
 		_myFileHeader->b[i] = (*file).read();
@@ -32,15 +35,23 @@ WavParse::WavParse(File *file) {
 	if (checkWaveHeader(_myWaveHeader) != 1) {
 		return;
 	}
-	for (int i = 0; i < sizeof(Wave_Data); i++) {
+	for (int i = 0; i < _myWaveHeader->data.subChunkSize; i++) {
 		_myWaveData->b[i] = (*file).read();
 	}
 	if (checkWaveData(_myWaveData) != 1) {
 		return;
 	}
+	for (int i = 0; i < sizeof(Data); i++) {
+		_myData->b[i] = (*file).read();
+	}
+	if (checkData(_myData) != 1) {
+		return;
+	}
 	success = 1;
 	sampleRate = _myWaveData->data.sampleRate;
 	bitsPerSample = _myWaveData->data.bitsPerSample;
+	dataOffset = (*file).position();
+	(*file).seek(0);
 }
 
 // This function ensures that a fileheader is correctly formatted.
@@ -85,6 +96,17 @@ int WavParse::checkWaveData(Wave_Data *wd) {
 		return 0;
 	}
 	if (wd->data.bitsPerSample % 8 != 0) {
+		return 0;
+	}
+	return 1;
+}
+
+// This function checks the integrity of the sound data
+int WavParse::checkData(Data *d) {
+	if (d->data.data != DATA) {
+		return 0;
+	}
+	if (d->data.size <= 0) {
 		return 0;
 	}
 	return 1;

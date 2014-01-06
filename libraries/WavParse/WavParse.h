@@ -13,7 +13,8 @@ public:
 	WavParse(File *file);
 	int success; //set to 1 if file headers have been successfully parsed
 	unsigned long sampleRate;
-	unsigned int bitsPerSample; 
+	unsigned int bitsPerSample;
+	unsigned long dataOffset; 
 private:
 	typedef union File_Header {
 	  typedef struct Header {
@@ -47,13 +48,24 @@ private:
 	  Data data;
 	  byte b[24];
 	} Wave_Data;
+
+	typedef union Data {
+		typedef struct payLoad {
+			unsigned long data;
+			unsigned long size;
+		} payLoad;
+		payLoad data;
+		byte b[8];
+	} Data;
+
 	File_Header *_myFileHeader;
 	Wave_Header *_myWaveHeader;
 	Wave_Data *_myWaveData;
+	Data *_myData;
 	int checkFileHeader(File_Header *fh);
 	int checkWaveHeader(Wave_Header *wh);
 	int checkWaveData(Wave_Data *wd);
-
+	int checkData(Data *d);
 };
 
 #endif

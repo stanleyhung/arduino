@@ -31,6 +31,7 @@ void setup() {
   Serial.println(parser.success);
   Serial.println(parser.sampleRate);
   Serial.println(parser.bitsPerSample);
+  Serial.println(parser.dataOffset);
   myFile.close();
 }
 
