@@ -6,10 +6,12 @@
 #define WavParse_h
 
 #include "Arduino.h"
+#include "SD.h"
 
 class WavParse {
 public:
-	WavParse();
+	WavParse(File *file);
+	int success; //set to 1 if file headers have been successfully parsed
 private:
 	typedef union File_Header {
 	  typedef struct Header {

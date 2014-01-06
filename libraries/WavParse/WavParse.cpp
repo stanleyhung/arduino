@@ -4,6 +4,7 @@
  */
 
 #include "Arduino.h"
+#include "SD.h"
 #include "WavParse.h"
 
 // The following fields map ASCII characters to little-endian decimal
@@ -14,8 +15,12 @@
 //In the WAVE Header, a standard PCM file contains at least 16 bytes 
 #define PCM_SIZE 16
 
-WavParse::WavParse() {
-	;
+WavParse::WavParse(File *file) {
+	sucess = 0;
+	File_Header *myFileHeader = (File_Header*) malloc(sizeof(File_Header));
+	for (int i = 0; i < sizeof(File_Header); i++) {
+		myFileHeader->b[i] = (*file).read();
+	}
 }
 
 // This function ensures that a fileheader is correctly formatted.
