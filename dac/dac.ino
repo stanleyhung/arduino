@@ -12,7 +12,7 @@ typedef struct File_Header {
     } Header;
     Header h;
     byte b[12];
-  } data;
+  } payLoad;
 } File_Header;
 
 typedef struct Wave_Header {
@@ -23,8 +23,24 @@ typedef struct Wave_Header {
     } Header;
     Header h;
     byte b[8];
-  } data;
+  } payLoad;
 } Wave_Header;
+
+typedef struct Wave_Data {
+  union {
+    typedef struct Data {
+      unsigned short audioFormat;
+      unsigned short numChannels;
+      unsigned long sampleRate;
+      unsigned long byteRate;
+      unsigned short blockAlign;
+      unsigned short bitsPerSample;
+      byte unused[8];
+    } Data;
+    Data d;
+    byte b[24];
+  } payLoad;
+} Wave_Data;
 
 void setup() {
   Serial.begin(9600);
@@ -50,14 +66,32 @@ void setup() {
   }
   Serial.println("successfully opened file");
   for (int i = 0; i < sizeof(File_Header); i++) {
-    myHeader->data.b[i] = myFile.read();
+    myHeader->payLoad.b[i] = myFile.read();
+  }
+  Wave_Header* myWav = (Wave_Header*) malloc(sizeof(Wave_Header));
+  for (int i = 0; i < sizeof(Wave_Header); i++) {
+    myWav->payLoad.b[i] = myFile.read();
+  }
+  Wave_Data* myWavData = (Wave_Data*) malloc(myWav->payLoad.h.subchunksize);
+  for (int i = 0; i < myWav->payLoad.h.subchunksize; i++) {
+    myWavData->payLoad.b[i] = myFile.read();
   }
   Serial.print("chunkID is: ");
-  Serial.println(myHeader->data.h.chunkID, HEX);
+  Serial.println(myHeader->payLoad.h.chunkID, HEX);
   Serial.print("chunksize is: ");
-  Serial.println(myHeader->data.h.chunkSize, HEX);
+  Serial.println(myHeader->payLoad.h.chunkSize, HEX);
   Serial.print("format is: ");
-  Serial.println(myHeader->data.h.format, HEX);
+  Serial.println(myHeader->payLoad.h.format, HEX);
+  Serial.print("subchunkid is: ");
+  Serial.println(myWav->payLoad.h.subchunkID, HEX);
+  Serial.print("subchunksize is: ");
+  Serial.println(myWav->payLoad.h.subchunksize);
+  Serial.print("numChannels is: ");
+  Serial.println(myWavData->payLoad.d.numChannels);
+  Serial.print("sampleRate is: ");
+  Serial.println(myWavData->payLoad.d.sampleRate);
+  Serial.print("byteRate is: ");
+  Serial.println(myWavData->payLoad.d.byteRate);
   myFile.close();
 }
 
