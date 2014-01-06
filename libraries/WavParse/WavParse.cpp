@@ -39,6 +39,8 @@ WavParse::WavParse(File *file) {
 		return;
 	}
 	success = 1;
+	sampleRate = _myWaveData->data.sampleRate;
+	bitsPerSample = _myWaveData->data.bitsPerSample;
 }
 
 // This function ensures that a fileheader is correctly formatted.

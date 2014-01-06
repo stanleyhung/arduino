@@ -12,6 +12,8 @@ class WavParse {
 public:
 	WavParse(File *file);
 	int success; //set to 1 if file headers have been successfully parsed
+	unsigned long sampleRate;
+	unsigned int bitsPerSample; 
 private:
 	typedef union File_Header {
 	  typedef struct Header {

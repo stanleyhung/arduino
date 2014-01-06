@@ -29,6 +29,8 @@ void setup() {
   WavParse parser(&myFile);
   Serial.println("attempted to parse file");
   Serial.println(parser.success);
+  Serial.println(parser.sampleRate);
+  Serial.println(parser.bitsPerSample);
   myFile.close();
 }
 
