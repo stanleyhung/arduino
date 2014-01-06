@@ -4,10 +4,19 @@ File myFile;
 char* fileName = "low.wav";
 
 typedef struct header_file {
-  char chunkID[4];
-  char chunkSize[4];
-  char format[4];
-} header;
+  union {
+    unsigned long ul;
+    byte b[4];
+  } chunkID;
+  union {
+    unsigned long ul;
+    byte b[4];
+  } chunkSize;
+  union {
+    unsigned long ul;
+    byte b[4];
+  } format;
+} Header;
 
 void setup() {
   Serial.begin(9600);
@@ -24,6 +33,7 @@ void setup() {
     Serial.println("does not exist in SD Card");
   }
   myFile = SD.open(fileName);
+  Header* myHeader = (Header*) malloc(sizeof(Header));
   if (!myFile) {
     Serial.println("Error - Could not open file");
     return;
