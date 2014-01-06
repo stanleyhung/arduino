@@ -16,11 +16,29 @@
 #define PCM_SIZE 16
 
 WavParse::WavParse(File *file) {
-	sucess = 0;
-	File_Header *myFileHeader = (File_Header*) malloc(sizeof(File_Header));
+	success = 0;
+	_myFileHeader = (File_Header*) malloc(sizeof(File_Header));
 	for (int i = 0; i < sizeof(File_Header); i++) {
-		myFileHeader->b[i] = (*file).read();
+		_myFileHeader->b[i] = (*file).read();
 	}
+	if (checkFileHeader(_myFileHeader) != 1) {
+		return;
+	}
+	_myWaveHeader = (Wave_Header*) malloc(sizeof(Wave_Header));
+	for (int i = 0; i < sizeof(Wave_Header); i++) {
+		_myWaveHeader->b[i] = (*file).read();
+	}
+	if (checkWaveHeader(_myWaveHeader) != 1) {
+		return;
+	}
+	_myWaveData = (Wave_Data*) malloc(sizeof(Wave_Data));
+	for (int i = 0; i < sizeof(Wave_Data); i++) {
+		_myWaveData->b[i] = (*file).read();
+	}
+	if (checkWaveData(_myWaveData) != 1) {
+		return;
+	}
+	success = 1;
 }
 
 // This function ensures that a fileheader is correctly formatted.

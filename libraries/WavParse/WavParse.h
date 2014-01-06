@@ -45,6 +45,9 @@ private:
 	  Data data;
 	  byte b[24];
 	} Wave_Data;
+	File_Header *_myFileHeader;
+	Wave_Header *_myWaveHeader;
+	Wave_Data *_myWaveData;
 	int checkFileHeader(File_Header *fh);
 	int checkWaveHeader(Wave_Header *wh);
 	int checkWaveData(Wave_Data *wd);
