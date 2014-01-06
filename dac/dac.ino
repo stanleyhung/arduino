@@ -77,13 +77,13 @@ void setup() {
     myWavData->payLoad.b[i] = myFile.read();
   }
   Serial.print("chunkID is: ");
-  Serial.println(myHeader->payLoad.h.chunkID, HEX);
+  Serial.println(myHeader->payLoad.h.chunkID);
   Serial.print("chunksize is: ");
-  Serial.println(myHeader->payLoad.h.chunkSize, HEX);
+  Serial.println(myHeader->payLoad.h.chunkSize);
   Serial.print("format is: ");
-  Serial.println(myHeader->payLoad.h.format, HEX);
+  Serial.println(myHeader->payLoad.h.format);
   Serial.print("subchunkid is: ");
-  Serial.println(myWav->payLoad.h.subchunkID, HEX);
+  Serial.println(myWav->payLoad.h.subchunkID);
   Serial.print("subchunksize is: ");
   Serial.println(myWav->payLoad.h.subchunksize);
   Serial.print("numChannels is: ");
