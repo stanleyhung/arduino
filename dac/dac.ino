@@ -3,43 +3,37 @@
 File myFile;
 char* fileName = "low.wav";
 
-typedef struct File_Header {
-  union {
-    typedef struct Header {
-      unsigned long chunkID;
-      unsigned long chunkSize;
-      unsigned long format;
-    } Header;
-    Header h;
-    byte b[12];
-  } payLoad;
+typedef union File_Header {
+  typedef struct Header {
+    unsigned long chunkID;
+    unsigned long chunkSize;
+    unsigned long format;
+  } Header;
+  Header h;
+  byte b[12];
 } File_Header;
 
-typedef struct Wave_Header {
-  union {
-    typedef struct Header {
-      unsigned long subchunkID;
-      unsigned long subchunksize;
-    } Header;
-    Header h;
-    byte b[8];
-  } payLoad;
+typedef union Wave_Header {
+  typedef struct Header {
+    unsigned long subchunkID;
+    unsigned long subchunksize;
+  } Header;
+  Header h;
+  byte b[8];
 } Wave_Header;
 
-typedef struct Wave_Data {
-  union {
-    typedef struct Data {
-      unsigned short audioFormat;
-      unsigned short numChannels;
-      unsigned long sampleRate;
-      unsigned long byteRate;
-      unsigned short blockAlign;
-      unsigned short bitsPerSample;
-      byte unused[8];
-    } Data;
-    Data d;
-    byte b[24];
-  } payLoad;
+typedef union Wave_Data {
+  typedef struct Data {
+    unsigned short audioFormat;
+    unsigned short numChannels;
+    unsigned long sampleRate;
+    unsigned long byteRate;
+    unsigned short blockAlign;
+    unsigned short bitsPerSample;
+    byte unused[8];
+  } Data;
+  Data d;
+  byte b[24];
 } Wave_Data;
 
 void setup() {
@@ -66,32 +60,32 @@ void setup() {
   }
   Serial.println("successfully opened file");
   for (int i = 0; i < sizeof(File_Header); i++) {
-    myHeader->payLoad.b[i] = myFile.read();
+    myHeader->b[i] = myFile.read();
   }
   Wave_Header* myWav = (Wave_Header*) malloc(sizeof(Wave_Header));
   for (int i = 0; i < sizeof(Wave_Header); i++) {
-    myWav->payLoad.b[i] = myFile.read();
+    myWav->b[i] = myFile.read();
   }
-  Wave_Data* myWavData = (Wave_Data*) malloc(myWav->payLoad.h.subchunksize);
-  for (int i = 0; i < myWav->payLoad.h.subchunksize; i++) {
-    myWavData->payLoad.b[i] = myFile.read();
+  Wave_Data* myWavData = (Wave_Data*) malloc(myWav->h.subchunksize);
+  for (int i = 0; i < myWav->h.subchunksize; i++) {
+    myWavData->b[i] = myFile.read();
   }
   Serial.print("chunkID is: ");
-  Serial.println(myHeader->payLoad.h.chunkID);
+  Serial.println(myHeader->h.chunkID);
   Serial.print("chunksize is: ");
-  Serial.println(myHeader->payLoad.h.chunkSize);
+  Serial.println(myHeader->h.chunkSize);
   Serial.print("format is: ");
-  Serial.println(myHeader->payLoad.h.format);
+  Serial.println(myHeader->h.format);
   Serial.print("subchunkid is: ");
-  Serial.println(myWav->payLoad.h.subchunkID);
+  Serial.println(myWav->h.subchunkID);
   Serial.print("subchunksize is: ");
-  Serial.println(myWav->payLoad.h.subchunksize);
+  Serial.println(myWav->h.subchunksize);
   Serial.print("numChannels is: ");
-  Serial.println(myWavData->payLoad.d.numChannels);
+  Serial.println(myWavData->d.numChannels);
   Serial.print("sampleRate is: ");
-  Serial.println(myWavData->payLoad.d.sampleRate);
+  Serial.println(myWavData->d.sampleRate);
   Serial.print("byteRate is: ");
-  Serial.println(myWavData->payLoad.d.byteRate);
+  Serial.println(myWavData->d.byteRate);
   myFile.close();
 }
 
