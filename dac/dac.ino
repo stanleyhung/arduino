@@ -3,7 +3,6 @@
 
 File myFile;
 char* fileName = "low.wav";
-WavParse parser();
 
 void setup() {
   Serial.begin(9600);
@@ -27,6 +26,9 @@ void setup() {
     return;
   }
   Serial.println("successfully opened file");
+  WavParse parser(&myFile);
+  Serial.println("attempted to parse file");
+  Serial.println(parser.success);
   /*
   Serial.print("chunkID is: ");
   Serial.println(myHeader->h.chunkID);
