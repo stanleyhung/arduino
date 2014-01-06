@@ -10,6 +10,10 @@
 class WavParse {
 public:
 	WavParse();
+	int checkFileHeader(File_Header *fh);
+	int checkWaveHeader(Wave_Header *wh);
+	int checkWaveData(Wave_Data *wd);
+private:
 	typedef union File_Header {
 	  typedef struct Header {
 	    unsigned long chunkID;
@@ -42,9 +46,6 @@ public:
 	  Data data;
 	  byte b[24];
 	} Wave_Data;
-	int checkFileHeader(File_Header *fh);
-	int checkWaveHeader(Wave_Header *wh);
-	int checkWaveData(Wave_Data *wd);
 
 };
 
