@@ -15,9 +15,21 @@ typedef struct File_Header {
   } data;
 } File_Header;
 
+typedef struct Wave_Header {
+  union {
+    typedef struct Header {
+      unsigned long subchunkID;
+      unsigned long subchunksize;
+    } Header;
+    Header h;
+    byte b[8];
+  } data;
+} Wave_Header;
+
 void setup() {
   Serial.begin(9600);
   pinMode(10, OUTPUT);
+  //open SD Card
   if (!SD.begin(4)) {
     Serial.println("ERROR - SD Card could not be opened");
     return;
@@ -29,6 +41,7 @@ void setup() {
   } else {
     Serial.println("does not exist in SD Card");
   }
+  //Open + Parse File Header Information
   myFile = SD.open(fileName);
   File_Header* myHeader = (File_Header*) malloc(sizeof(File_Header));
   if (!myFile) {
