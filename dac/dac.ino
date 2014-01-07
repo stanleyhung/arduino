@@ -3,15 +3,30 @@
 
 File myFile;
 char* fileName = "low.wav";
-volatile int i;
+volatile int j;
 int ledPin = 7;
+int resetButton = 9;
 volatile byte b[1];
 
 void setup() {
+  
+  //reset functionality: if reset button is pressed
+  pinMode(resetButton, INPUT);
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  for (int i = 5; i < 10; i++) {
+    pinMode(i, OUTPUT);
+  }
+  if (digitalRead(resetButton) == HIGH) {
+    digitalWrite(2, HIGH);
+    digitalWrite(3, HIGH);
+    for (int i = 5; i < 10; i++) {
+      digitalWrite(i, HIGH);
+    }
+    return;
+  }
 
   Serial.begin(9600);
-  pinMode(10, OUTPUT);
-  pinMode(ledPin, OUTPUT);
   //open SD Card
   if (!SD.begin(4)) {
     Serial.println("ERROR - SD Card could not be opened");
@@ -43,7 +58,7 @@ void setup() {
     Serial.println("ERROR - File could not be parsed");
   }
   myFile.close();
-  i = 0;
+  j = 0;
 
   cli(); //disable interrupts
 
@@ -64,13 +79,13 @@ void setup() {
 
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
-  if (i) {
+  if (j) {
     digitalWrite(ledPin, HIGH);
-    i = 0;
+    j = 0;
   } 
   else {
     digitalWrite(ledPin, LOW);
-    i = 1;
+    j = 1;
   }
 }
 
