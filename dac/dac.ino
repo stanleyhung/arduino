@@ -2,6 +2,7 @@
 #include <WavParse.h>
 
 File myFile;
+File volatileFile;
 char* fileName = "low.wav";
 volatile int j;
 int ledPin = 7;
@@ -64,6 +65,13 @@ void setup() {
     return;
   }
   j = 0;
+  volatileFile = SD.open(fileName);
+  if (!volatileFile) {
+   //error since filed could not be opened
+     digitalWrite(0, HIGH);
+     digitalWrite(1, HIGH);
+     return; 
+  }
 
   cli(); //disable interrupts
 
