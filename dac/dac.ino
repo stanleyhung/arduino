@@ -26,6 +26,7 @@ void setup() {
     for (int i = 5; i < 10; i++) {
       digitalWrite(i, HIGH);
     }
+    myFile.close();
     return;
   }
   
