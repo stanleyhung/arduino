@@ -130,9 +130,9 @@ ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
   data = myFile.read();
   //output most-significant bit of data
-  PORTB = (PORTB & B1110) | (data >> 7);
+  PORTB = (PORTB & B111110) | (data >> 7);
   //output the other bits of data
-  PORTD = (PORTD & B00010000) | ( (data & B0001111) | ( (data << 1) & B11100000));
+  PORTD = (PORTD & B00010000) | ( (data & B00001111) | ( (data << 1) & B11100000));
   #else
   if (j) {
     digitalWrite(ledPin, HIGH);
