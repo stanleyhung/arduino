@@ -2,7 +2,6 @@
 #include <WavParse.h>
 
 File myFile;
-File volatileFile;
 char* fileName = "low.wav";
 volatile int j;
 int ledPin = 7;
@@ -57,7 +56,6 @@ void setup() {
   Serial.println("successfully opened file");
   WavParse parser(&myFile);
   Serial.println("attempted to parse file");
-  myFile.close();
   if (parser.success) {
     Serial.println("successfully parsed file");
     Serial.println(parser.sampleRate);
@@ -68,20 +66,14 @@ void setup() {
     return;
   }
   j = 0;
-  volatileFile = SD.open(fileName);
-  if (!volatileFile) {
-   //error since failed could not be opened
-     signalError();
-     return; 
+  
+  if (!myFile) {
+    signalError();
+    return;
   }
-  volatileFile.seek(parser.dataOffset);
-  digitalWrite(8, HIGH);
-  delay(1000);
-  digitalWrite(7, HIGH);
-  delay(1000);
-  digitalWrite(8, LOW);
-  digitalWrite(7, LOW);
 
+  signalSuccess();
+  
   cli(); //disable interrupts
 
   //set timer1 interrupts at 6kHz
@@ -107,11 +99,11 @@ ISR(TIMER1_COMPA_vect) {
   PORTD = PORTD | ( (data & B0000111) | ( (data << 1) & B11100000));
   #else
   if (j) {
-    digitalWrite(ledPin + 1, HIGH);
+    digitalWrite(ledPin, HIGH);
     j = 0;
   } 
   else {
-    digitalWrite(ledPin + 1, LOW);
+    digitalWrite(ledPin, LOW);
     j = 1;
   }
   #endif
@@ -123,6 +115,15 @@ void signalError() {
  digitalWrite(5, HIGH);
  delay(1000);
  digitalWrite(7, HIGH);
+}
+
+void signalSuccess() {
+  digitalWrite(8, HIGH);
+  delay(1000);
+  digitalWrite(7, HIGH);
+  delay(1000); 
+  digitalWrite(8, LOW);
+  digitalWrite(7, LOW);
 }
 
 void loop () {
