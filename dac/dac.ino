@@ -10,7 +10,7 @@ volatile byte data;
 
 //DEBUG is defined if ports 0 and 1 are not to be used as outputs
 //#define DEBUG
-#define LOW_FREQUENCY
+//#define LOW_FREQUENCY
 
 void setup() {
   
@@ -137,6 +137,10 @@ void setup() {
 ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
   data = myFile.read();
+  if (!data) {
+    PORTB = (PORTB & B111110);
+    PORTD = (PORTD & B00010000);
+  }
   //output most-significant bit of data
   PORTB = (PORTB & B111110) | (data >> 7);
   //output the other bits of data
