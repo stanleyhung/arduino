@@ -88,7 +88,7 @@ void setup() {
     return;
   }
   j = 0;
-  
+  myFile.seek(parser.dataOffset);
   if (!myFile) {
     signalError();
     return;
@@ -99,6 +99,14 @@ void setup() {
   pinMode(1, OUTPUT);
   #endif
   signalSuccess();
+  
+  #ifdef DEBUG
+  //print out first five bytes of data for debugging purposes
+  for (int i = 0; i < 5; i++) {
+    Serial.println(myFile.read());
+  }
+  myFile.seek(parser.dataOffset);
+  #endif
   
   cli(); //disable interrupts
 
