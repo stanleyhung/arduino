@@ -143,6 +143,7 @@ void signalError() {
  digitalWrite(5, HIGH);
  delay(1000);
  digitalWrite(7, HIGH);
+ myFile.close();
 }
 
 void signalSuccess() {
