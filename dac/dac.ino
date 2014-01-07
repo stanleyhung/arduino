@@ -8,7 +8,7 @@ volatile int j;
 int ledPin = 7;
 int resetButton = 9;
 volatile byte b[1];
-unsigned short data;
+volatile byte data;
 
 void setup() {
   
