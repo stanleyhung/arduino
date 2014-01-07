@@ -42,7 +42,7 @@ void setup() {
   } else {
     Serial.println("ERROR - File could not be parsed");
   }
-  myFile.seek(parser.dataOffset);
+  myFile.close();
   i = 0;
 
   cli(); //disable interrupts
