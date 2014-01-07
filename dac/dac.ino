@@ -114,7 +114,7 @@ void setup() {
   TCCR1A = 0;
   TCCR1B = 0;
   TCNT1 = 0;
-  OCR1A = 62499; //2666 = (16*10^6) / (6000*1) - 1
+  OCR1A = 15625; //2666 = (16*10^6) / (6000*1) - 1
   //turn on CTC mode
   TCCR1B |= (1 << WGM12);
   TCCR1B |= (1 << CS12) | (1 << CS10); //set CS10 bit for 1 prescaler
