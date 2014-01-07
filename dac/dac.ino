@@ -36,7 +36,7 @@ void setup() {
   Serial.println(parser.sampleRate);
   Serial.println(parser.bitsPerSample);
   Serial.println(parser.dataOffset);
-  myFile.close();
+  myFile.seek(parser.dataOffset);
   i = 0;
   
   cli(); //disable interrupts
@@ -58,6 +58,13 @@ void setup() {
 
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
+  if (i) {
+    digitalWrite(ledPin, HIGH);
+    i = 0;
+  } else {
+    digitalWrite(ledPin, LOW);
+    i = 1;
+  }
 }
 
 void loop () {
