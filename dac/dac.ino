@@ -71,6 +71,7 @@ void setup() {
   volatileFile = SD.open(fileName);
   if (!volatileFile) {
    //error since failed could not be opened
+     signalError();
      return; 
   }
   volatileFile.seek(parser.dataOffset);
@@ -114,6 +115,14 @@ ISR(TIMER1_COMPA_vect) {
     j = 1;
   }
   #endif
+}
+
+void signalError() {
+ digitalWrite(3, HIGH);
+ delay(1000);
+ digitalWrite(5, HIGH);
+ delay(1000);
+ digitalWrite(7, HIGH);
 }
 
 void loop () {
