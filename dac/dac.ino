@@ -72,9 +72,7 @@ void setup() {
   j = 0;
   volatileFile = SD.open(fileName);
   if (!volatileFile) {
-   //error since filed could not be opened
-     digitalWrite(0, HIGH);
-     digitalWrite(1, HIGH);
+   //error since failed could not be opened
      return; 
   }
   volatileFile.seek(parser.dataOffset);
@@ -102,8 +100,7 @@ ISR(TIMER1_COMPA_vect) {
   data = volatileFile.read();
   PORTB = PORTB | (data >> 7);
   PORTD = PORTD | ( (data & B0000111) | ( (data << 1) & B11100000));
-  #endif
-  #ifdef DEBUG
+  #else
   if (j) {
     digitalWrite(ledPin + 1, HIGH);
     j = 0;
