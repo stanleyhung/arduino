@@ -8,6 +8,7 @@ volatile int j;
 int ledPin = 7;
 int resetButton = 9;
 volatile byte b[1];
+unsigned short data;
 
 void setup() {
   
@@ -72,6 +73,7 @@ void setup() {
      digitalWrite(1, HIGH);
      return; 
   }
+  volatileFile.seek(parser.dataOffset);
 
   cli(); //disable interrupts
 
@@ -92,6 +94,7 @@ void setup() {
 
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
+  data = volatileFile.read();
   if (j) {
     digitalWrite(ledPin, HIGH);
     j = 0;
