@@ -60,7 +60,6 @@ void setup() {
 
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
-  b[0] = myFile.read();
   if (i) {
     digitalWrite(ledPin, HIGH);
     i = 0;
@@ -72,6 +71,5 @@ ISR(TIMER1_COMPA_vect) {
 }
 
 void loop () {
-  Serial.println(myFile.position());
 }
 
