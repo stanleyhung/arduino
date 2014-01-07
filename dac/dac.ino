@@ -2,7 +2,7 @@
 #include <WavParse.h>
 
 File myFile;
-char* fileName = "low129.wav";
+char* fileName = "low.wav";
 volatile int j;
 int ledPin = 7;
 int resetButton = 9;
