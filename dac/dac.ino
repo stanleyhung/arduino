@@ -2,7 +2,7 @@
 #include <WavParse.h>
 
 File myFile;
-char* fileName = "low.wav";
+char* fileName = "low129.wav";
 volatile int j;
 int ledPin = 7;
 int resetButton = 9;
@@ -122,7 +122,7 @@ ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
   data = myFile.read();
   //output most-significant bit of data
-  PORTB = (PORTB & B111100) | (data >> 7);
+  PORTB = (PORTB & B0011) | (data >> 7);
   //output the other bits of data
   PORTD = (PORTD & B00010000) | ( (data & B0000111) | ( (data << 1) & B11100000));
   #else
