@@ -151,6 +151,7 @@ void signalSuccess() {
   delay(1000); 
   digitalWrite(8, LOW);
   digitalWrite(7, LOW);
+  delay(2000);
 }
 
 void loop () {
