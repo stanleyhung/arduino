@@ -29,40 +29,60 @@ void setup() {
     return;
   }
   
+  #ifdef DEBUG
   Serial.begin(9600);
+  #endif
   //open SD Card
   if (!SD.begin(4)) {
+    #ifdef DEBUG
     Serial.println("ERROR - SD Card could not be opened");
+    #endif
     signalError();
     return;
   }
+  #ifdef DEBUG
   Serial.print(fileName);
   Serial.print("\t");
+  #endif
   if (SD.exists(fileName)) {
+    #ifdef DEBUG
     Serial.println("exists in SD Card");
+    #endif
   } 
   else {
+    #ifdef DEBUG
     Serial.println("does not exist in SD Card");
+    #endif
     signalError();
     return;
   }
   //Open + Parse File Header Information
   myFile = SD.open(fileName);
   if (!myFile) {
+    #ifdef DEBUG
     Serial.println("Error - Could not open file");
+    #endif
     signalError();
     return;
   }
+  #ifdef DEBUG
   Serial.println("successfully opened file");
+  #endif
   WavParse parser(&myFile);
+  #ifdef DEBUG
   Serial.println("attempted to parse file");
+  #endif
   if (parser.success) {
+    #ifdef DEBUG
     Serial.println("successfully parsed file");
     Serial.println(parser.sampleRate);
     Serial.println(parser.bitsPerSample);
     Serial.println(parser.dataOffset);
+    #endif
   } else {
-    //Serial.println("ERROR - File could not be parsed");
+    #ifdef DEBUG
+    Serial.println("ERROR - File could not be parsed");
+    #endif
     signalError();
     return;
   }
