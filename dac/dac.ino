@@ -28,10 +28,6 @@ void setup() {
     }
     return;
   }
-  #ifndef DEBUG
-  pinMode(0, OUTPUT);
-  pinMode(1, OUTPUT);
-  #endif
   
   //Serial.begin(9600);
   //open SD Card
@@ -79,6 +75,10 @@ void setup() {
     return;
   }
 
+  #ifndef DEBUG
+  pinMode(0, OUTPUT);
+  pinMode(1, OUTPUT);
+  #endif
   signalSuccess();
   
   cli(); //disable interrupts
