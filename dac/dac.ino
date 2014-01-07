@@ -37,6 +37,7 @@ void setup() {
   //open SD Card
   if (!SD.begin(4)) {
     //Serial.println("ERROR - SD Card could not be opened");
+    signalError();
     return;
   }
   //Serial.print(fileName);
@@ -46,11 +47,14 @@ void setup() {
   } 
   else {
     //Serial.println("does not exist in SD Card");
+    signalError();
+    return;
   }
   //Open + Parse File Header Information
   myFile = SD.open(fileName);
   if (!myFile) {
     //Serial.println("Error - Could not open file");
+    signalError();
     return;
   }
   //Serial.println("successfully opened file");
@@ -65,6 +69,7 @@ void setup() {
     */
   } else {
     //Serial.println("ERROR - File could not be parsed");
+    signalError();
     return;
   }
   j = 0;
