@@ -34,39 +34,37 @@ void setup() {
   pinMode(1, OUTPUT);
   #endif
   
-  //Serial.begin(9600);
+  Serial.begin(9600);
   //open SD Card
   if (!SD.begin(4)) {
-    //Serial.println("ERROR - SD Card could not be opened");
+    Serial.println("ERROR - SD Card could not be opened");
     return;
   }
-  //Serial.print(fileName);
-  //Serial.print("\t");
+  Serial.print(fileName);
+  Serial.print("\t");
   if (SD.exists(fileName)) {
-    //Serial.println("exists in SD Card");
+    Serial.println("exists in SD Card");
   } 
   else {
-    //Serial.println("does not exist in SD Card");
+    Serial.println("does not exist in SD Card");
   }
   //Open + Parse File Header Information
   myFile = SD.open(fileName);
   if (!myFile) {
-    //Serial.println("Error - Could not open file");
+    Serial.println("Error - Could not open file");
     return;
   }
-  //Serial.println("successfully opened file");
+  Serial.println("successfully opened file");
   WavParse parser(&myFile);
-  //Serial.println("attempted to parse file");
+  Serial.println("attempted to parse file");
   myFile.close();
   if (parser.success) {
-    /*
     Serial.println("successfully parsed file");
     Serial.println(parser.sampleRate);
     Serial.println(parser.bitsPerSample);
     Serial.println(parser.dataOffset);
-    */
   } else {
-    //Serial.println("ERROR - File could not be parsed");
+    Serial.println("ERROR - File could not be parsed");
     return;
   }
   j = 0;
@@ -76,6 +74,12 @@ void setup() {
      return; 
   }
   volatileFile.seek(parser.dataOffset);
+  digitalWrite(8, HIGH);
+  delay(1000);
+  digitalWrite(7, HIGH);
+  delay(1000);
+  digitalWrite(8, LOW);
+  digitalWrite(7, LOW);
 
   cli(); //disable interrupts
 
