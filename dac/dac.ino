@@ -25,6 +25,8 @@ void setup() {
     }
     return;
   }
+  pinMode(0, OUTPUT);
+  pinMode(1, OUTPUT);
 
   Serial.begin(9600);
   //open SD Card
