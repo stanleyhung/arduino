@@ -94,7 +94,7 @@ void setup() {
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
-  data = volatileFile.read();
+  data = myFile.read();
   PORTB = PORTB | (data >> 7);
   PORTD = PORTD | ( (data & B0000111) | ( (data << 1) & B11100000));
   #else
