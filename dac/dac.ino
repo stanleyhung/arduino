@@ -9,6 +9,9 @@ int ledPin = 7;
 int resetButton = 9;
 volatile byte data;
 
+//DEBUG is defined if ports 0 and 1 are not to be used as outputs
+#define DEBUG
+
 void setup() {
   
   //reset functionality: if reset button is pressed
@@ -26,9 +29,11 @@ void setup() {
     }
     return;
   }
+  #ifndef DEBUG
   pinMode(0, OUTPUT);
   pinMode(1, OUTPUT);
-
+  #endif
+  
   //Serial.begin(9600);
   //open SD Card
   if (!SD.begin(4)) {
@@ -93,15 +98,21 @@ void setup() {
 
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
+  #ifndef DEBUG
   data = volatileFile.read();
+  PORTB = PORTB | (data >> 7);
+  PORTD = PORTD | ( (data & B0000111) | ( (data << 1) & B11100000));
+  #endif
+  #ifdef DEBUG
   if (j) {
-    digitalWrite(ledPin, HIGH);
+    digitalWrite(ledPin + 1, HIGH);
     j = 0;
   } 
   else {
-    digitalWrite(ledPin, LOW);
+    digitalWrite(ledPin + 1, LOW);
     j = 1;
   }
+  #endif
 }
 
 void loop () {
