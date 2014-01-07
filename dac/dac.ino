@@ -102,8 +102,8 @@ void setup() {
 ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
   data = myFile.read();
-  PORTB = PORTB | (data >> 7);
-  PORTD = PORTD | ( (data & B0000111) | ( (data << 1) & B11100000));
+  PORTB = (PORTB & B00010000) | (data >> 7);
+  PORTD = (PORTD & B111100) | ( (data & B0000111) | ( (data << 1) & B11100000));
   #else
   if (j) {
     digitalWrite(ledPin, HIGH);
