@@ -34,10 +34,14 @@ void setup() {
   Serial.println("successfully opened file");
   WavParse parser(&myFile);
   Serial.println("attempted to parse file");
-  Serial.println(parser.success);
-  Serial.println(parser.sampleRate);
-  Serial.println(parser.bitsPerSample);
-  Serial.println(parser.dataOffset);
+  if (parser.success) {
+    Serial.println("successfully parsed file");
+    Serial.println(parser.sampleRate);
+    Serial.println(parser.bitsPerSample);
+    Serial.println(parser.dataOffset);
+  } else {
+    Serial.println("ERROR - File could not be parsed");
+  }
   myFile.seek(parser.dataOffset);
   i = 0;
 
