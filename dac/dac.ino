@@ -7,7 +7,6 @@ char* fileName = "low.wav";
 volatile int j;
 int ledPin = 7;
 int resetButton = 9;
-volatile byte b[1];
 volatile byte data;
 
 void setup() {
