@@ -3,7 +3,7 @@
 
 File myFile;
 char* fileName = "low.wav";
-int i;
+volatile int i;
 int ledPin = 7;
 volatile byte b[1];
 
