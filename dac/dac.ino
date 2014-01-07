@@ -58,13 +58,6 @@ void setup() {
 
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
-  if (i) {
-    digitalWrite(ledPin, HIGH);
-    i = 0;
-  } else {
-    digitalWrite(ledPin, LOW);
-    i = 1;
-  }
 }
 
 void loop () {
