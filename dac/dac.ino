@@ -121,7 +121,9 @@ void setup() {
   TCCR1B |= (1 << WGM12);
   TCCR1B |= (1 << CS12) | (1 << CS10); //set CS10 bit for 1 prescaler
   #else
-  OCR1A = 999; //999 = (16*10^6) / (16000*1) - 1
+  unsigned int frequency = parser.sampleRate / 1000; //frequency in KhHz
+  unsigned int compareMatchRegister = 16000 / frequency - 1;
+  OCR1A = compareMatchRegister; //999 = (16*10^6) / (16000*1) - 1
   //turn on CTC mode
   TCCR1B |= (1 << WGM12);
   TCCR1B |= (1 << CS10); //set CS10 bit for 1 prescaler
