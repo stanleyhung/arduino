@@ -2,7 +2,7 @@
 #include <WavParse.h>
 
 File myFile;
-char* fileName = "low.wav";
+char* fileName = "high.wav";
 volatile int j;
 int ledPin = 7;
 int resetButton = 9;
@@ -121,7 +121,7 @@ void setup() {
   TCCR1B |= (1 << WGM12);
   TCCR1B |= (1 << CS12) | (1 << CS10); //set CS10 bit for 1 prescaler
   #else
-  OCR1A = 2666; //2666 = (16*10^6) / (6000*1) - 1
+  OCR1A = 999; //999 = (16*10^6) / (16000*1) - 1
   //turn on CTC mode
   TCCR1B |= (1 << WGM12);
   TCCR1B |= (1 << CS10); //set CS10 bit for 1 prescaler
