@@ -140,8 +140,7 @@ ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
   data = myFile.read();
   if (!data) {
-    PORTB = (PORTB & B111110);
-    PORTD = (PORTD & B00010000);
+    myFile = myFile.openNextFile();
     return;
   }
   //output most-significant bit of data
