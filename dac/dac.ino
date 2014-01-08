@@ -10,7 +10,7 @@ volatile byte data;
 
 //DEBUG is defined if ports 0 and 1 are not to be used as outputs
 //#define DEBUG
-//#define LOW_FREQUENCY
+//#define LOW_FREQUENCY //if defined, the frequency of interrupts will be 1Hz
 
 void setup() {
   
