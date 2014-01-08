@@ -12,7 +12,7 @@ class WavParse {
 public:
 	WavParse(File *file);
 	int success; //set to 1 if file headers have been successfully parsed
-	unsigned long sampleRate;
+	unsigned int sampleRate;
 	unsigned int bitsPerSample;
 	unsigned long dataOffset; 
 private:
