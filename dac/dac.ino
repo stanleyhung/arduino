@@ -109,6 +109,13 @@ void setup() {
   myFile.seek(parser.dataOffset);
   #endif
   
+  unsigned int frequency = parser.sampleRate / 1000; //frequency in KhHz
+  unsigned int compareMatchRegister = 16000 / frequency - 1;
+  #ifdef DEBUG
+  Serial.println("compare match register is:");
+  Serial.println(compareMatchRegister);
+  #endif
+  
   cli(); //disable interrupts
 
   //set timer1 interrupts at 6kHz
@@ -121,8 +128,6 @@ void setup() {
   TCCR1B |= (1 << WGM12);
   TCCR1B |= (1 << CS12) | (1 << CS10); //set CS10 bit for 1 prescaler
   #else
-  unsigned int frequency = parser.sampleRate / 1000; //frequency in KhHz
-  unsigned int compareMatchRegister = 16000 / frequency - 1;
   OCR1A = compareMatchRegister; //999 = (16*10^6) / (16000*1) - 1
   //turn on CTC mode
   TCCR1B |= (1 << WGM12);
@@ -140,7 +145,7 @@ ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
   data = myFile.read();
   if (!data) {
-    myFile = myFile.openNextFile();
+    //myFile = myFile.openNextFile();
     return;
   }
   //output most-significant bit of data
