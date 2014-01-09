@@ -2,7 +2,7 @@
 #include <WavParse.h>
 
 File myFile;
-char* fileName = "f2.wav";
+char* fileName = "f5.wav";
 volatile int j;
 int ledPin = 7;
 int resetButton = 9;
@@ -35,7 +35,8 @@ void setup() {
   Serial.begin(9600);
   #endif
   //open SD Card
-  if (!SD.begin(4)) {
+  boolean success = SD.begin(4);
+  if (!success) {
     #ifdef DEBUG
     Serial.println("ERROR - SD Card could not be opened");
     #endif
@@ -43,10 +44,10 @@ void setup() {
     return;
   }
   #ifdef DEBUG
-  Serial.print(fileName);
-  Serial.print("\t");
+  Serial.println(fileName);
   #endif
-  if (SD.exists(fileName)) {
+  success = SD.exists(fileName);
+  if (success) {
     #ifdef DEBUG
     Serial.println("exists in SD Card");
     #endif
@@ -104,9 +105,6 @@ void setup() {
   
   #ifdef DEBUG
   //print out first five bytes of data for debugging purposes
-  for (int i = 0; i < 5; i++) {
-    Serial.println(myFile.read());
-  }
   myFile.seek(parser.dataOffset);
   #endif
   
@@ -117,8 +115,9 @@ void setup() {
   Serial.println(parser.sampleRate);
   Serial.println("compare match register is:");
   Serial.println(compareMatchRegister);
+  delay(3000);
   #endif
-  
+ 
   cli(); //disable interrupts
 
   //set timer1 interrupts at 6kHz
