@@ -23,6 +23,7 @@ WavParse::WavParse(File *file) {
 	//reset file in case it was used by someone else
 	(*file).seek(0);
 	success = 0;
+	reason = "default reason";
 	for (int i = 0; i < sizeof(File_Header); i++) {
 		_myFileHeader->b[i] = (*file).read();
 	}
@@ -57,13 +58,16 @@ WavParse::WavParse(File *file) {
 // This function ensures that a fileheader is correctly formatted.
 int WavParse::checkFileHeader(File_Header *fh) {
 	if (fh->data.chunkID != RIFF) {
+		reason = "File header: NO RIFF HEADER";
 		return 0;
 	}
 	//Ensure that the chunkSize is positive
 	if (fh->data.chunkSize <= 0) {
+		reason = "File header: chunkSize is not positive";
 		return 0;
 	}
 	if (fh->data.format != WAVE) {
+		reason = "File header: format is not WAVE";
 		return 0;
 	}
 	return 1;
@@ -72,10 +76,12 @@ int WavParse::checkFileHeader(File_Header *fh) {
 // This function ensures that a waveheader is correctly formatted.
 int WavParse::checkWaveHeader(Wave_Header *wh) {
 	if (wh->data.subChunkID != FMT) {
+		reason = "Wave header: format is not correct; not fmt";
 		return 0;
 	}
 	//the size of the chunk must be at least 16 bytes since PCM is 16
 	if (wh->data.subChunkSize < PCM_SIZE) {
+		reason = "Wave header: format is not PCM";
 		return 0;
 	}
 	return 1;
@@ -84,18 +90,23 @@ int WavParse::checkWaveHeader(Wave_Header *wh) {
 // This function ensures that the wavedata contains data that can be parsed correctly.
 int WavParse::checkWaveData(Wave_Data *wd) {
 	if (wd->data.audioFormat != UNCOMPRESSED_AUDIO_FORMAT) {
+		reason = "Wave data: audioFormat incorrect";
 		return 0;
 	}
 	if (wd->data.numChannels < 1 || wd->data.numChannels > 8) {
+		reason = "Wave data: numChannels unsupported";
 		return 0;
 	}
 	if (wd->data.sampleRate < 0) {
+		reason = "Wave data: sampleRate is negative: ";
 		return 0;
 	}
 	if (wd->data.byteRate < 0 ) {
+		reason = "Wave data: byteRate is negative: ";
 		return 0;
 	}
 	if (wd->data.bitsPerSample % 8 != 0) {
+		reason = "Wave data: bitsPerSample is not divisible by 8: ";
 		return 0;
 	}
 	return 1;
@@ -104,9 +115,11 @@ int WavParse::checkWaveData(Wave_Data *wd) {
 // This function checks the integrity of the sound data
 int WavParse::checkData(Data *d) {
 	if (d->data.data != DATA) {
+		reason = "data: did not being with proper data header";
 		return 0;
 	}
 	if (d->data.size <= 0) {
+		reason = "data: size is not positive";
 		return 0;
 	}
 	return 1;

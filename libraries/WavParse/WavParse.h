@@ -14,7 +14,8 @@ public:
 	int success; //set to 1 if file headers have been successfully parsed
 	unsigned int sampleRate;
 	unsigned int bitsPerSample;
-	unsigned long dataOffset; 
+	unsigned long dataOffset;
+	String reason;
 private:
 	typedef union File_Header {
 	  typedef struct Header {

@@ -2,7 +2,7 @@
 #include <WavParse.h>
 
 File myFile;
-char* fileName = "high.wav";
+char* fileName = "frozen2.wav";
 volatile int j;
 int ledPin = 7;
 int resetButton = 9;
@@ -83,6 +83,7 @@ void setup() {
     #endif
   } else {
     #ifdef DEBUG
+    Serial.println(parser.reason);
     Serial.println("ERROR - File could not be parsed");
     #endif
     signalError();
