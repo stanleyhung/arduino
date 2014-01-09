@@ -145,7 +145,6 @@ ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
   data = myFile.read();
   if (!data) {
-    //myFile = myFile.openNextFile();
     return;
   }
   //output most-significant bit of data
