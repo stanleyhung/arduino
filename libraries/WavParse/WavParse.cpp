@@ -75,10 +75,12 @@ int WavParse::checkFileHeader(File_Header *fh) {
 
 // This function ensures that a waveheader is correctly formatted.
 int WavParse::checkWaveHeader(Wave_Header *wh) {
+	/*
 	if (wh->data.subChunkID != FMT) {
 		reason = "Wave header: format is not correct; not fmt";
 		return 0;
 	}
+	*/
 	//the size of the chunk must be at least 16 bytes since PCM is 16
 	if (wh->data.subChunkSize < PCM_SIZE) {
 		reason = "Wave header: format is not PCM";
