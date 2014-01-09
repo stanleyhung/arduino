@@ -2,7 +2,7 @@
 #include <WavParse.h>
 
 File myFile;
-char* fileName = "frozen2.wav";
+char* fileName = "f2.wav";
 volatile int j;
 int ledPin = 7;
 int resetButton = 9;
@@ -113,6 +113,8 @@ void setup() {
   unsigned int frequency = parser.sampleRate / 1000; //frequency in KhHz
   unsigned int compareMatchRegister = 16000 / frequency - 1;
   #ifdef DEBUG
+  Serial.println("sample rate is:");
+  Serial.println(parser.sampleRate);
   Serial.println("compare match register is:");
   Serial.println(compareMatchRegister);
   #endif

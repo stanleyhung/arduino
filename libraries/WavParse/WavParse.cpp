@@ -23,7 +23,7 @@ WavParse::WavParse(File *file) {
 	//reset file in case it was used by someone else
 	(*file).seek(0);
 	success = 0;
-	reason = "default reason";
+	reason = (char*) malloc(40*sizeof(char));
 	for (int i = 0; i < sizeof(File_Header); i++) {
 		_myFileHeader->b[i] = (*file).read();
 	}

@@ -15,7 +15,7 @@ public:
 	unsigned int sampleRate;
 	unsigned int bitsPerSample;
 	unsigned long dataOffset;
-	String reason;
+	char* reason;
 private:
 	typedef union File_Header {
 	  typedef struct Header {
