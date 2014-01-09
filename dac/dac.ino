@@ -7,6 +7,8 @@ volatile int j;
 int ledPin = 7;
 int resetButton = 9;
 volatile byte data;
+volatile int counter;
+int fileOpenDelay;
 
 //DEBUG is defined if ports 0 and 1 are not to be used as outputs
 //#define DEBUG
@@ -18,6 +20,7 @@ void setup() {
   pinMode(resetButton, INPUT);
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
+  counter = 0;
   for (int i = 5; i < 10; i++) {
     pinMode(i, OUTPUT);
   }
@@ -107,6 +110,7 @@ void setup() {
     Serial.println(myFile.read());
   }
   myFile.seek(parser.dataOffset);
+  fileOpenDelay = parser.sampleRate;
   #endif
   
   unsigned int frequency = parser.sampleRate / 1000; //frequency in KhHz
@@ -143,10 +147,19 @@ void setup() {
 //Timer1 interrupts at 6kHz
 ISR(TIMER1_COMPA_vect) {
   #ifndef DEBUG
-  data = myFile.read();
+  if (counter == 0) {
+    data = myFile.read();
+  }
+  /*
   if (!data) {
+    counter++;
+    myFile = myFile.openNextFile();
+    if (counter == fileOpenDelay) {
+     counter = 0; 
+    }
     return;
   }
+  */
   //output most-significant bit of data
   PORTB = (PORTB & B111110) | (data >> 7);
   //output the other bits of data
